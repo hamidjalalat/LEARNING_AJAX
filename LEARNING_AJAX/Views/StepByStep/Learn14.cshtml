@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 14</title>
+
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+	<style>
+		.marginTop {
+			margin-top: 8px;
+		}
+	</style>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	<script src="~/Scripts/jquery.validate.min.js"></script>
+	<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$("button#btnOpenCreateDialog").click(function () {
+
+				$("div#message").html("");
+
+				$("div#loadingDialog").modal({ backdrop: true, keyboard: false, });
+
+				$.ajax({
+
+					type: "POST",
+
+					dataType: "html",
+
+					data: null,
+
+					url: "/StepByStep/GetPartialViewForCreatingCustomer4",
+
+					error: function (response) {
+
+						$("div#message").html("Error on sending or receiving data!");
+
+						$("div#loadingDialog").modal("toggle");
+
+					},
+
+					success: function (response) {
+
+						$("div#loadingDialog").modal("toggle");
+
+						$("form#frmMain").html(response);
+
+						// **************************************************
+						// بسيار بسيار مهم
+						$.validator.unobtrusive.parse("form#frmMain");
+						// **************************************************
+
+						$("h4#generalDialogLabel").html("Create Customer");
+
+						$("div#generalDialog").modal("toggle");
+
+					},
+
+					complete: function (response) {
+
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div class="container">
+
+		<div class="row marginTop">
+			<div class="col-md-12" id="message"></div>
+		</div>
+
+		<div class="row marginTop">
+			<div class="col-md-12">
+				<button class="btn btn-default" id="btnOpenCreateDialog">Create</button>
+			</div>
+		</div>
+
+		<div class="row marginTop">
+			<div class="col-md-12 table-responsive">
+				<table id="data" class="table table-bordered table-condensed table-hover table-striped">
+					<tr>
+						<th>
+							Full Name
+						</th>
+						<th>
+							Age
+						</th>
+					</tr>
+					<tr>
+						<td>
+							Sara Ahmadi
+						</td>
+						<td>
+							25
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Reza Sadeghi
+						</td>
+						<td>
+							30
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	@*@Html.Partial("_Partial_LoadingDialog")*@
+
+	@Html.Partial("_Partial_GeneralDialog")
+
+</body>
+</html>

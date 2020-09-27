@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 8</title>
+
+	<style>
+		div#loading {
+			display: none;
+		}
+	</style>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnDisplayPartialView').click(function () {
+
+				$('div#message').html('');
+
+				$('div#loading').show();
+				$('button#btnDisplayPartialView').hide();
+
+				var varData =
+					$('form#frmMain').serialize();
+
+				$.ajax({
+
+					type: 'POST',
+
+					dataType: 'html',
+
+					data: varData,
+
+					url: '/StepByStep/GetData08',
+
+					error: function (response) {
+
+						console.log(response);
+						$('div#message').html('Error on sending or receiving data!');
+
+					},
+
+					success: function (response) {
+
+						$('input#feeling').val('');
+
+						//$('div#partialView').html(response);
+						//$('div#partialView').append(response);
+						$('div#partialView').prepend(response);
+
+					},
+
+					complete: function (response) {
+
+						$('div#loading').hide();
+						$('button#btnDisplayPartialView').show();
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div id="loading">
+		<img src="~/Content/Images/Loading.gif" alt="Loading" title="Loading" />
+		Loading... Please Wait!
+	</div>
+
+	<div id="message"></div>
+
+	<br />
+
+	<form id="frmMain">
+		Your Feeling:
+		<br />
+		<input type="text" id="feeling" name="feeling" />
+		<button type="button" id="btnDisplayPartialView">...</button>
+	</form>
+
+	<br />
+
+	<div id="partialView">
+	</div>
+</body>
+</html>

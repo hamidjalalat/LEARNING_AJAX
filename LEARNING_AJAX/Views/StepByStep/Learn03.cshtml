@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 3</title>
+
+	<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnDisplayUserInformation').click(function () {
+
+				$('div#message').html('');
+
+				$('span#age').html('');
+				$('span#fullName').html('');
+
+				$('button#btnDisplayUserInformation').hide();
+
+				$.ajax({
+
+					type: 'POST',
+
+					dataType: 'json',
+
+					data: null,
+
+					url: '/StepByStep/GetData03',
+
+					error: function (response) {
+
+						console.log(response);
+						$('div#message').html('Error on sending or receiving data!');
+
+						//$('button#btnDisplayUserInformation').show();
+						//$('button#btnDisplayUserInformation').show(1000);
+						$('button#btnDisplayUserInformation').fadeIn(1000);
+
+					},
+
+					success: function (response) {
+
+						$('span#age').text(response.Age);
+						$('span#fullName').text(response.FullName);
+
+						//$('button#btnDisplayUserInformation').show();
+						//$('button#btnDisplayUserInformation').show(1000);
+						$('button#btnDisplayUserInformation').fadeIn(1000);
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div id="message"></div>
+
+	<button type="button" id="btnDisplayUserInformation">Display User Information</button>
+
+	<br />
+	<br />
+
+	Age:
+	<span id="age"></span>
+
+	<br />
+
+	Full Name:
+	<span id="fullName"></span>
+</body>
+</html>

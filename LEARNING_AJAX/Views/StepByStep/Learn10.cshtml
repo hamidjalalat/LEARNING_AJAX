@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 10</title>
+
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+	<style>
+		.marginTop {
+			margin-top: 8px;
+		}
+	</style>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnOpenCreateDialog').click(function () {
+
+			    $('div#createDialog').modal({ backdrop: false, keyboard: false, });
+
+			});
+
+			$('button#btnCreate').click(function () {
+
+				$('div#message').html('');
+
+				$('div#loadingDialog').modal({ backdrop: false, keyboard: false, });
+
+				var varData =
+					$('form#frmMain').serialize();
+
+				$.ajax({
+
+					type: 'POST',
+
+					dataType: 'json',
+
+					data: varData,
+
+					url: '/StepByStep/GetData10',
+
+					error: function (response) {
+
+						$('div#message').html('Error on sending or receiving data!');
+
+						$('div#loadingDialog').modal('toggle');
+
+					},
+
+					success: function (response) {
+
+						$('div#loadingDialog').modal('toggle');
+
+						$('div#createDialog').modal('toggle');
+
+						// ايجاد يک سطر به (جدول) فهرست مشتريان
+
+						var varRow =
+							'<tr><td>' + $('input#fullName').val() +
+							'</td><td>' + $('input#age').val() +
+							'</td></tr>';
+
+						$('table#data').prepend(varRow);
+						//$('table#data').append(varRow);
+
+						$('input#age').val('');
+						$('input#fullName').val('');
+
+					},
+
+					complete: function (response) {
+
+
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div class="container">
+
+		<div class="row marginTop">
+			<div class="col-md-12" id="message"></div>
+		</div>
+
+		<div class="row marginTop">
+			<div class="col-md-12">
+				<button class="btn btn-primary" id="btnOpenCreateDialog">Create</button>
+			</div>
+		</div>
+
+		<div class="row marginTop">
+			<div class="col-md-12 table-responsive">
+				<table id="data" class="table table-bordered table-condensed table-hover table-striped">
+					<tr>
+						<th>
+							Full Name
+						</th>
+						<th>
+							Age
+						</th>
+					</tr>
+
+					<tr>
+						<td>
+							Sara Ahmadi
+						</td>
+						<td>
+							25
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Reza Sadeghi
+						</td>
+						<td>
+							30
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	@*@Html.Partial("_Partial_LoadingDialog")*@
+
+	<div id="createDialog" class="modal fade" style="z-index: 1000" tabindex="-1" role="dialog" aria-labelledby="createDialogLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="createDialogLabel">Create</h4>
+				</div>
+
+				<div class="modal-body form-horizontal">
+
+					<form id="frmMain">
+						<div class="row form-group">
+							<label for="fullName" class="control-label col-sm-3">Full Name</label>
+							<div class="col-sm-9">
+								<input type="text" id="fullName" name="fullName" class="form-control" />
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<label for="age" class="control-label col-md-3">Age</label>
+							<div class="col-md-9">
+								<input type="text" id="age" name="age" class="form-control" />
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-sm-9 col-sm-offset-3">
+								<button type="button" id="btnCreate" class="btn btn-primary">Create</button>
+								<button type="reset" class="btn btn-default">Reset</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

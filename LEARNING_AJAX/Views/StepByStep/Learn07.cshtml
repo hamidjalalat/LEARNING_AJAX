@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 7</title>
+
+	<style>
+		div#loading {
+			display: none;
+		}
+	</style>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnCreate').click(function () {
+
+				$('div#message').html('');
+
+				$('div#loading').show();
+				$('button#btnDisplayMessage').hide();
+
+				// **************************************************
+				// *** Solution (1) *********************************
+				// **************************************************
+				//var varData =
+				//	{
+				//		age: $('input#age').val(),
+				//		fullName: $('input#fullName').val(),
+				//	};
+				// **************************************************
+				// *** /Solution (1) *********************************
+				// **************************************************
+
+				// **************************************************
+				// *** Solution (2) *********************************
+				// **************************************************
+				// داشته باشند name تمام کنترل ها بايد
+				// قرار بگيرند from و در داخل تگ
+				var varData =
+					$('form#frmMain').serialize();
+				// **************************************************
+				// *** /Solution (2) *********************************
+				// **************************************************
+
+				$.ajax({
+
+					type: 'POST',
+
+					dataType: 'json',
+
+					data: varData,
+
+					url: '/StepByStep/GetData07',
+
+					error: function (response) {
+
+						$('div#message').html('Error on sending or receiving data!');
+
+					},
+
+					success: function (response) {
+
+						$('input#age').val('');
+						$('input#fullName').val('');
+
+						$('div#message').html(response.Message);
+
+					},
+
+					complete: function (response) {
+
+						$('div#loading').hide();
+						$('button#btnCreate').show();
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div id="loading">
+		<img src="~/Content/Images/Loading.gif" alt="Loading" title="Loading" />
+		Loading... Please Wait!
+	</div>
+
+	<div id="message"></div>
+
+	<br />
+
+	<form id="frmMain">
+		Age:
+		<br />
+		<input type="text" id="age" name="age" />
+
+		<br />
+		<br />
+
+		Full Name:
+		<br />
+		<input type="text" id="fullName" name="fullName" />
+	</form>
+
+	<br />
+	<br />
+
+	<button type="button" id="btnCreate">Create</button>
+</body>
+</html>

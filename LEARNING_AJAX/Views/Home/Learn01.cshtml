@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 1</title>
+</head>
+<body>
+	@Ajax.ActionLink(
+			"[Ajax.ActionLink] Click Here!",
+			"GetPartialView01",
+			new AjaxOptions
+			{
+				HttpMethod = "Get",
+				UpdateTargetId = "divContent",
+				InsertionMode = InsertionMode.InsertAfter
+			}
+		)
+
+	<div id="divContent">
+		<h4>
+			Content
+		</h4>
+	</div>
+</body>
+</html>

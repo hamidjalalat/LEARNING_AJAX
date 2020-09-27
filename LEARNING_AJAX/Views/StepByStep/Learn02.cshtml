@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 2</title>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnDisplayMessage').click(function () {
+
+				$('div#message').html('');
+
+				$.ajax({
+
+					//type: 'GET',
+					type: 'POST',
+
+					dataType: 'json',
+
+					data: null,
+
+					url: '/StepByStep/GetData02',
+
+					error: function (response) {
+
+						console.log(response);
+						$('div#message').html('Error on sending or receiving data!');
+
+					},
+
+					success: function (response) {
+
+						$('div#message').html(response.Message);
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<button type="button" id="btnDisplayMessage">Click Me!</button>
+
+	<br />
+	<br />
+
+	<div id="message"></div>
+</body>
+</html>

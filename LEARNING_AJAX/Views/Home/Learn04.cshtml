@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 4</title>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+	<style>
+		div#divProgress {
+			display: none;
+
+			color: blue;
+			margin: 10px;
+			padding: 4px;
+			border: thin outset;
+			background-color: yellow;
+		}
+	</style>
+</head>
+<body>
+	<div id="divProgress">
+		<img src="~/Content/Images/Loading.gif" alt="Loading..." title="Loading..." />
+		Loading! Please Wait...
+	</div>
+
+	@Ajax.ActionLink(
+			"[Ajax.ActionLink] Click Here!",
+			"GetPartialView02",
+			//"GetPartialView02/17",
+			//"GetPartialView02?name=xyz",
+			//"GetPartialView02?name=" + strName,
+			new AjaxOptions
+			{
+				HttpMethod = "Post",
+				UpdateTargetId = "divContent",
+				LoadingElementId = "divProgress",
+				InsertionMode = InsertionMode.InsertBefore
+			}
+		)
+
+	<div id="divContent">
+		<h4>
+			Content
+		</h4>
+	</div>
+</body>
+</html>

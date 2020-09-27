@@ -1,0 +1,102 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>LearnDialog01</title>
+
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$("input#btnOpenDialog1").click(function () {
+
+				$("div#myDialog").modal();
+
+			});
+
+			$("input#btnOpenDialog2").click(function () {
+
+				$("div#myLoadingDialog").modal({ keyboard: false, backdrop: false });
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h1>
+			Learning Bootstrap Modal!
+		</h1>
+
+		<input type="button" id="btnOpenDialog1" value="Open Dialog" />
+
+		<input type="button" id="btnOpenDialog2" value="Open Loading Dialog" />
+	</div>
+
+	<div id="myDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myDialogLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+					<h4 class="modal-title" id="myDialogLabel">
+						This is Title!
+					</h4>
+
+				</div>
+
+				<div class="modal-body">
+
+					<h3>
+						This is Body!
+					</h3>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="myLoadingDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLoadingDialogLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+
+					<h4 class="modal-title" id="myLoadingDialogLabel">
+						Loading...
+					</h4>
+
+				</div>
+
+				<div class="modal-body">
+
+					<h3>
+						Please Wait!
+					</h3>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

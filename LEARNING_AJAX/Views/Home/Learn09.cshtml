@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 7</title>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+
+			$("input#btnSubmit").click(function (e) {
+
+				$("input#btnSubmit").hide();
+				$("div#divProgress").show();
+
+				// Solution (1)
+				//var varLastName = $("input#LastName").val();
+				//var varFirstName = $("input#FirstName").val();
+
+				//var varData =
+				//	'{"FirstName":"' + varFirstName + '","LastName":"' + varLastName + '"}';
+				// /Solution (1)
+
+				// Solution (2)
+				//var varLastName = $("input#LastName").val();
+				//var varFirstName = $("input#FirstName").val();
+
+				// Note: Does Not Work!
+				//var varData =
+				//	"{'FirstName':'" + varFirstName + "','LastName':'" + varLastName + "'}";
+				// /Solution (2)
+
+				// Solution (3)
+				//var varLastName = $("input#LastName").val();
+				//var varFirstName = $("input#FirstName").val();
+
+				//var varData =
+				//	{ FirstName: varFirstName, LastName: varLastName };
+				// /Solution (3)
+
+				// Solution (4)
+				//var varData =
+				//	{
+				//		LastName: $("input#LastName").val(),
+				//		FirstName: $("input#FirstName").val(),
+				//	};
+				// /Solution (4)
+
+				// Solution (5)
+				//var varData =
+				//	{
+				//		FirstName: function () {
+				//			return ($("input#FirstName").val());
+				//		},
+				//		LastName: function () {
+				//			return ($("input#LastName").val());
+				//		},
+				//	};
+				// /Solution (5)
+
+				// Solution (6)
+				// Note: All of elements should be in form tag!
+				// Note: Form elements should have [name] attribute!
+				var varData = $("form#frmMain").serialize();
+				// /Solution (6)
+
+				console.log(varData);
+
+				$.ajax({
+					//type: "GET",
+					//url: "GetJson04_1",
+
+					//type: "GET",
+					//url: "GetJson04_2",
+
+					//type: "GET",
+					//url: "GetJson04_3",
+
+					//type: "POST",
+					//url: "GetJson04_4",
+
+					//type: "POST",
+					//url: "GetJson04_5",
+
+					type: "POST",
+					url: "GetJson04_6",
+
+					data: varData,
+					dataType: "json",
+					//contentType: "application/json; charset=utf-8",
+
+					success: function (response) {
+
+						$("div#divMessage").text(response.MyMessage);
+
+					},
+
+					error: function (response) {
+
+						$("div#divMessage").text("Error on Sending/Receiving Data!");
+
+					},
+
+					statusCode: {
+						200: function () {
+
+							//alert("Everything is OK...");
+
+						},
+
+						404: function () {
+
+							//alert("Action not found!");
+
+						},
+
+						500: function () {
+
+							//alert("Error On Server!");
+
+						},
+					},
+
+					complete: function (response) {
+
+						$("input#btnSubmit").fadeIn(2000);
+						$("div#divProgress").fadeOut(4000);
+
+					},
+				});
+			});
+		});
+	</script>
+
+	<style>
+		div#divProgress {
+			display: none;
+			color: blue;
+			margin: 10px;
+			padding: 4px;
+			border: thin outset;
+			background-color: yellow;
+		}
+	</style>
+</head>
+<body>
+	<div id="divProgress">
+		<img src="~/Images/Loading.gif" alt="Loading..." title="Loading...." />
+		Loading... Please Wait!
+	</div>
+
+	<form id="frmMain">
+		<div id="divMessage">
+		</div>
+
+		<br />
+
+		Type your first name:
+		<input type="text" id="FirstName" name="FirstName" />
+
+		<br />
+
+		Type your last name:
+		<input type="text" id="LastName" name="LastName" />
+
+		<br />
+
+		<input type="button" id="btnSubmit" value="(S)ubmit" accesskey="S" />
+	</form>
+</body>
+</html>

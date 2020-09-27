@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 5</title>
+
+	<style>
+		div#loading {
+			display: none;
+		}
+	</style>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnSubmit').click(function () {
+
+				$('div#message').html('');
+
+				$('div#loading').show();
+				$('button#btnSubmit').hide();
+
+				//var varData =
+				//	{
+				//		salary: '123/456',
+				//	};
+
+				var varData =
+					{
+						salary: 123.456,
+					};
+
+				$.ajax({
+
+					type: 'POST',
+
+					dataType: 'json',
+
+					data: varData,
+
+					url: '/StepByStep/GetData06',
+
+					error: function (response) {
+
+						console.log(response);
+						$('div#message').html('Error on sending or receiving data!');
+
+					},
+
+					success: function (response) {
+
+						$('div#message').html(response.Message);
+
+					},
+
+					complete: function (response) {
+
+						$('div#loading').hide();
+						$('button#btnSubmit').show();
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div id="loading">
+		<img src="~/Content/Images/Loading.gif" alt="Loading" title="Loading" />
+		Loading... Please Wait!
+	</div>
+
+	<div id="message"></div>
+
+	<button type="button" id="btnSubmit">Submit</button>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 2</title>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+</head>
+<body>
+	@Ajax.ActionLink(
+			"[Ajax.ActionLink] Click Here!",
+			"GetPartialView01",
+			new AjaxOptions
+			{
+				HttpMethod = "Get",
+				UpdateTargetId = "divContent",
+				InsertionMode = InsertionMode.InsertAfter
+			}
+		)
+
+	<div id="divContent">
+		<h4>
+			Content
+		</h4>
+	</div>
+</body>
+</html>

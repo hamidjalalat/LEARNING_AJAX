@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 1</title>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+
+	<script>
+
+		$(document).ready(function () {
+
+			$('button#btnDisplayMessage').click(function () {
+
+				$('div#message').html('');
+
+				// Solution (1)
+				// دستور ذيل بی معنی است
+				//$.ajax();
+				// /Solution (1)
+
+				// Solution (2)
+				//var varAjaxParameters =
+				//	{ type: 'GET', dataType: 'json', };
+
+				//$.ajax(varAjaxParameters);
+				// /Solution (2)
+
+				// Solution (3)
+				$.ajax({
+
+					// نوع درخواست ما از سرور
+					type: 'GET',
+
+					// نوع داده ای است که از سرور به سمت ما ارسال می گردد
+					dataType: 'json',
+
+					// پارامترهای ورودی است که به تابع اکشن ارسال می گردد
+					data: null,
+
+					// نشانی اکشن در سمت سرور
+					url: '/StepByStep/GetData01',
+
+					error: function (response) {
+
+						console.log(response);
+						$('div#message').html('Error on sending or receiving data!');
+
+					},
+
+					success: function (response) {
+
+						//$('div#message').html(response);
+						$('div#message').html(response.Message);
+						//$('div#message').html(response.message); // Note: Does Not Work!
+
+					},
+
+				});
+				// /Solution (3)
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<button type="button" id="btnDisplayMessage">Click Me!</button>
+
+	<br />
+	<br />
+
+	<div id="message"></div>
+</body>
+</html>

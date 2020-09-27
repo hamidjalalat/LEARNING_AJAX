@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 8</title>
+
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+
+			$("input#btnOpenCreateDialog").click(function () {
+
+				$("div#myCreateDialog").modal();
+
+			});
+
+			$("input#btnCreate").click(function () {
+
+				$("div#myLoadingDialog").modal({ keyboard: false, backdrop: false });
+
+				$("div#divMessage").html("");
+
+				var varData =
+					$("form#frmMain").serialize();
+
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+
+					url: "GetJson04_6",
+
+					data: varData,
+					//contentType: "application/json; charset=utf-8",
+
+					success: function (response) {
+
+						$("div#divMessage").html(response.MyMessage);
+
+						// **************************************************
+						var varFirstName = $("input#FirstName").val();
+						$("input#FirstName").val("");
+
+						var varLastName = $("input#LastName").val();
+						$("input#LastName").val("");
+
+						var varColFirstName = $("<td>");
+						$(varColFirstName).html(varFirstName);
+
+						var varColLastName = $("<td>");
+						$(varColLastName).html(varLastName);
+
+						var varRow = $("<tr>")
+
+						$(varRow).append(varColFirstName);
+						$(varRow).append(varColLastName);
+
+						$("table#tblData").append(varRow);
+						// **************************************************
+
+					},
+
+					error: function (response) {
+						$("div#divMessage").html("Error on Sending/Receiving Data!");
+					},
+
+					complete: function (response) {
+
+						$("div#myLoadingDialog").modal('toggle');
+
+					},
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h3>
+			Person List
+		</h3>
+
+		<div class="row">
+			<input type="button" id="btnOpenCreateDialog" class="btn btn-default" value="Open Dialog For Creating New Person" />
+		</div>
+
+		<br />
+		<br />
+
+		<div class="row">
+			<table id="tblData" border="1" width="300">
+				<tr>
+					<th>
+						First Name
+					</th>
+					<th>
+						Last Name
+					</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div id="myLoadingDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLoadingDialogLabel" aria-hidden="true" style="z-index: 10000">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+
+					<h4 class="modal-title" id="myLoadingDialogLabel">
+						Loading...
+					</h4>
+
+				</div>
+
+				<div class="modal-body">
+
+					<h3>
+						Please Wait!
+					</h3>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="myCreateDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myCreateDialogLabel" aria-hidden="true" style="z-index: 9000">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+					<h4 class="modal-title" id="myCreateDialogLabel">
+						Create Person
+					</h4>
+
+				</div>
+
+				<div class="modal-body">
+
+					<form id="frmMain">
+						<div class="form-group">
+							<label for="FirstName" class="control-label col-md-3">First Name</label>
+							<div class="form-group col-md-9">
+								<input type="text" id="FirstName" name="FirstName" class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="LastName" class="control-label col-md-3">Last Name</label>
+							<div class="form-group col-md-9">
+								<input type="text" id="LastName" name="LastName" class="form-control" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<input type="reset" class="btn btn-danger" value="Reset" />
+							<input type="button" id="btnCreate" class="btn btn-primary" value="Create" />
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@*<div id="myCreateDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myCreateDialogLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+						<h4 class="modal-title" id="myCreateDialogLabel">
+							Create Person
+						</h4>
+					</div>
+
+					<div class="modal-body">
+						<form id="frmMain">
+							<div class="form-group">
+								<label for="FirstName" class="control-label col-md-3">First Name</label>
+								<div class="form-group col-md-9">
+									<input type="text" id="FirstName" name="FirstName" class="form-control" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="LastName" class="control-label col-md-3">Last Name</label>
+								<div class="form-group col-md-9">
+									<input type="text" id="LastName" name="LastName" class="form-control" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<input type="reset" class="btn btn-danger" value="Reset" />
+								<input type="button" id="btnCreate" class="btn btn-primary" value="Create" />
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="myLoadingDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLoadingDialogLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title" id="myLoadingDialogLabel">
+							Loading...
+						</h4>
+					</div>
+
+					<div class="modal-body">
+						<h3>
+							Please Wati!
+						</h3>
+					</div>
+
+				</div>
+			</div>
+		</div>*@
+</body>
+</html>

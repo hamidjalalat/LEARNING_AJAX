@@ -1,0 +1,81 @@
+﻿@model Models.Person
+
+<div class="form-group">
+	@Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-3" })
+	<div class="form-group col-md-9">
+		@Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+		@Html.ValidationMessageFor(model => model.FirstName)
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-3" })
+	<div class="form-group col-md-9">
+		@Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+		@Html.ValidationMessageFor(model => model.LastName)
+	</div>
+</div>
+
+<div class="form-group">
+	<input type="reset" class="btn btn-danger" value="Reset" />
+	<input type="button" id="btnCreate" class="btn btn-primary" value="Create" />
+</div>
+
+<script>
+
+	$(document).ready(function () {
+
+		$("input#btnCreate").click(function () {
+
+			// بسيار بسيار مهم
+			if ($("form#frmData").valid() == false) {
+				return;
+			}
+
+			$("div#myLoadingDialog").modal({ keyboard: false, backdrop: false });
+
+			var varData =
+				$("form#frmMain").serialize();
+
+			$.ajax({
+				type: "POST",
+				url: "GetJson04_6",
+				data: varData,
+				dataType: "json",
+				//contentType: "application/json; charset=utf-8",
+
+				success: function (response) {
+					$("div#divMessage").text(response.MyMessage);
+
+					var varFirstName = $("input#FirstName").val();
+					$("input#FirstName").val("");
+
+					var varLastName = $("input#LastName").val();
+					$("input#LastName").val("");
+
+					var varColFirstName = $("<td>");
+					$(varColFirstName).html(varFirstName);
+
+					var varColLastName = $("<td>");
+					$(varColLastName).html(varLastName);
+
+					var varRow = $("<tr>")
+
+					$(varRow).append(varColFirstName);
+					$(varRow).append(varColLastName);
+
+					$("table#tblData").append(varRow);
+				},
+
+				error: function (response) {
+					$("div#divMessage").text("Error on Sending/Receiving Data!");
+				},
+
+				complete: function (response) {
+					$("div#myLoadingDialog").modal('toggle');
+				},
+			});
+		});
+	});
+
+</script>

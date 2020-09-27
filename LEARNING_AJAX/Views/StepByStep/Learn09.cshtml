@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Learn 9</title>
+
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+	<style>
+		div.container {
+			margin-top: 20px;
+		}
+	</style>
+
+	<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+
+	<script>
+
+        $(document).ready(function () {
+
+
+			$('button#btnDisplayMessage').click(function () {
+
+				//$('div#loadingDialog').modal();
+
+				$('div#loadingDialog').modal({ backdrop: true, keyboard: false, });
+			
+
+				var varData =
+					$('form#frmMain').serialize();
+
+				$.ajax({
+
+					type: 'POST',
+
+					dataType: 'json',
+
+					data: varData,
+
+					url: '/StepByStep/GetData09',
+
+					error: function (response) {
+
+						$('div#message').html('Error on sending or receiving data!');
+
+					},
+
+					success: function (response) {
+
+						$('input#age').val('');
+						$('input#fullName').val('');
+
+						$('div#message').html(response.Message);
+
+					},
+
+					complete: function (response) {
+
+						$('div#loadingDialog').modal('toggle');
+
+					},
+
+				});
+
+			});
+
+		});
+
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div id="message"></div>
+
+		<br />
+
+		<form id="frmMain">
+			Age:
+			<br />
+			<input type="text" id="age" name="age" class="form-control" />
+
+			<br />
+			<br />
+
+			Full Name:
+			<br />
+			<input type="text" id="fullName" name="fullName" class="form-control" />
+		</form>
+
+		<br />
+		<br />
+
+		<button type="button" id="btnDisplayMessage" class="btn btn-primary">Display Message</button>
+	</div>
+
+	<div id="loadingDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loadingDialogLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="loadingDialogLabel">
+						<img src="~/Content/Images/Loading.gif" alt="Loading..." title="Loading..." />
+						Loading...
+					</h4>
+				</div>
+
+				<div class="modal-body">
+					Please Wait!
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@*
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+					</div>
+
+					<div class="modal-body">
+						...
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	*@
+</body>
+</html>

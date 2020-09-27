@@ -1,0 +1,51 @@
+﻿@{
+	string strContent = "content_" + ViewBag.Id;
+	string strProgressId = "progress_" + ViewBag.Id;
+}
+
+<div id="@strContent">
+	<div style="color: blue; background-color: yellow; border: thin outset; padding: 2px; margin: 2px;">
+
+		<span id="@strProgressId" class="progress">
+			<img src="~/Content/Images/Loading.gif" alt="Loading..." title="Loading..." style="float: left" />
+		</span>
+
+		@*@using (Ajax.BeginForm(
+				"Delete",
+				new AjaxOptions
+				{
+					HttpMethod = "Post",
+					UpdateTargetId = strContent,
+					LoadingElementId = strProgressId,
+					InsertionMode = InsertionMode.Replace,
+					//OnSuccess = "displaySourceCode"
+				}))
+		{
+			<input type="hidden" id="id" name="id" value="@ViewBag.Id" />
+
+			<input type="submit" value="Delete" />
+		}*@
+
+		@{
+			System.Guid sId =
+				(System.Guid)ViewBag.Id;
+
+			string strActionName =
+				string.Format("Delete/{0}", sId);
+		}
+
+		@Ajax.ActionLink(
+			"Delete",
+			strActionName,
+			new AjaxOptions
+			{
+				HttpMethod = "Post",
+				UpdateTargetId = strContent,
+				LoadingElementId = strProgressId,
+				InsertionMode = InsertionMode.Replace
+			}
+		)
+
+		@ViewBag.Data
+	</div>
+</div>
